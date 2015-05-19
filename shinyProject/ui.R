@@ -8,11 +8,11 @@ shinyUI(fluidPage(
         # Sidebar with a slider input for the number of bins
         sidebarLayout(
                 sidebarPanel(
-                        sliderInput("bins",
+                        sliderInput("hp",
                                     "Number of bins:",
-                                    min = 1,
-                                    max = 50,
-                                    value = 30)
+                                    min = 75,
+                                    max = 250,
+                                    value = 100)
                 ),
                 
                 # Show a plot of the generated distribution
