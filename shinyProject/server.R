@@ -1,28 +1,24 @@
 require(datasets)
 require(ggplot2)
+fit<-lm(formula = mpg~hp, data = mtcars)
+coefs<-coef(fit)
+
 shinyServer(function(input, output) {
+        graphic<-qplot(hp, mpg, data = mtcars)+
+                xlab("Hourse power")+
+                ylab("Miles per Galon")+
+                geom_abline(intercept = coefs[1], slope=coefs[2])
+
         
-        # Expression that generates a histogram. The expression is
-        # wrapped in a call to renderPlot to indicate that:
-        #
-        #  1) It is "reactive" and therefore should re-execute automatically
-        #     when inputs change
-        #  2) Its output type is a plot
+        prediction <- reactive({
+                predict(fit, newdata = data.frame(hp=input$hp))
+        })
+        output$distPlot <- renderPlot({        
+                #add big red prediction point to display our prediction
+                graphic + geom_point(aes(x=input$hp, y=prediction()), color="red", size=5)
+        })
         
-        
-        
-                
-        
-        output$distPlot <- renderPlot({
-                
-                
-                hoursepower<-input$hp
-                # draw the histogram with the specified number of bins
-                #hist(x, breaks = bins, col = 'darkgray', border = 'white')
-                fit <-lm(formula = mpg~hp, data = mtcars)
-                coefs<-coef(fit)
-                p <- qplot(hp, mpg, data = mtcars)
-                prediction<-predict(fit, newdata = data.frame(hp=hoursepower))
-                p + geom_abline(intercept = coefs[1], slope=coefs[2]) + geom_point(aes(x=hoursepower, y=prediction), color="red", size=5)
+        output$mpg<-renderText({
+                prediction()
         })
 })
