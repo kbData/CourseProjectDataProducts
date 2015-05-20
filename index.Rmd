@@ -1,0 +1,52 @@
+---
+title       : Predict Miles per Gallon of a Car
+subtitle    : using Linear Model
+author      : 
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Overview
+
+- you know, how many horsepower you want in your car
+- we can predict, how many miles per gallon such a car will have.
+- to do that, we built a mathematical model and trained it on a real dataset
+
+---
+
+## Dataset
+
+ - The data was extracted from the 1974 Motor Trend US magazine
+ - see https://goo.gl/ZU7MTU for more details
+
+```{r}
+require(datasets)
+head(mtcars)
+```
+
+---
+
+## Model
+- a linear model was build
+- hourse power was used as a predictor for miles per galon
+```{r}
+fit<-lm(formula = mpg~hp, data = mtcars)
+fit
+```
+
+---
+
+## Visualisation
+- The shiny application UI contains visualization of the linear model
+
+```{r fig.height=3}
+require(ggplot2)
+qplot(hp, mpg, data = mtcars)+ xlab("Hourse power")+ylab("Miles per Gallon") +
+                geom_abline(intercept = coef(fit)[1], slope=coef(fit)[2])
+```
+- checkout yourself: https://kbdata.shinyapps.io/shinyProject/
