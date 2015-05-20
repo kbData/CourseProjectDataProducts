@@ -6,7 +6,7 @@ coefs<-coef(fit)
 shinyServer(function(input, output) {
         graphic<-qplot(hp, mpg, data = mtcars)+
                 xlab("Hourse power")+
-                ylab("Miles per Galon")+
+                ylab("Miles per Gallon")+
                 geom_abline(intercept = coefs[1], slope=coefs[2])
 
         
